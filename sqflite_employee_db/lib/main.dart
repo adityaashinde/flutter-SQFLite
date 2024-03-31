@@ -6,8 +6,10 @@ dynamic database;
 void main() async {
   runApp(const MainApp());
 
-  openDatabase(
-   await getDatabasesPath();
+  database = openDatabase(
+    join(
+      await getDatabasesPath(),
+    ),
   );
 }
 
