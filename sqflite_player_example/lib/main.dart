@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
 
-void main() {
+dynamic database;
+void main() async {
   runApp(const MainApp());
+
+  database = openDatabase(
+    join(
+      await getDatabasesPath(),
+    ),
+  );
 }
 
 class MainApp extends StatelessWidget {
