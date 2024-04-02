@@ -19,7 +19,34 @@ class Player {
 }
 
 void main() async {
-  runApp(const MainApp());
+  // We have commented THE runApp method so we will to call
+  // The ensureInitialized method from the WidgetFlutterBinding class
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  /*
+  The openDatabase method of the Database class is called here this method returns an Object of Database
+
+  We will assign this object of Database to the global variable database.
+
+  We have passed the openDatabase class 3 parameters i.e.
+  1. path
+  2. version
+  3. onCreate 
+
+  The path is the Path where the database are stored it will be different for emulators and real device.
+
+  getDatabasesPath() method will give the default path for the databases for the respective device.
+
+  The version will be the version of the current database.
+
+  onCreate callback will contain the steps which we want to perform when our database is created.
+
+  In our case we have created a table Player.
+
+  The Player table contains 4 columns i.e name, jerNo, runs, avg.
+  The jerNo is the PRIMARY KEY.
+  */
 
   database = openDatabase(
     join(await getDatabasesPath(), 'PlayerDB.db'),
