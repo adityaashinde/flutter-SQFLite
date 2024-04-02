@@ -18,6 +18,23 @@ class Player {
   });
 }
 
+insertPlayerData(Player obj) async {
+  // assign the database to the local variable localDB
+
+  final localDB = await database;
+
+  // The insert method from the database class is used to insert the data in the player table.
+
+  // The insert method takes 3 parameters i.e TABLE NAME, MAP OF DATA TO BE PASSED, CONFLICT ALGORITHM.
+
+  //The CONFLICT ALGORITHM is applied when data with same PRIMARY KEY is inserted.
+
+  await localDB.insert(
+    "Player",
+    conflictAlgorithm: ConflictAlgorithm.replace,
+  );
+}
+
 void main() async {
   // We have commented THE runApp method so we will to call
   // The ensureInitialized method from the WidgetFlutterBinding class
@@ -59,19 +76,22 @@ void main() async {
         avg REAL)''');
     },
   );
-}
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  // Insert into
 
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
-    );
-  }
+  Player batsman1 =
+      Player(name: "Virat Kohli", jerNo: 18, runs: 54300, avg: 58.70);
+
+  insertPlayerData(batsman1);
+
+  // We have created an object of the Player class to insert it into the database.
+
+  Player batsman2 =
+      Player(name: "Rohit Sharma", jerNo: 45, runs: 45236, avg: 50.52);
+
+  insertPlayerData(batsman2);
+
+  Player batsman3 = Player(name: "KL Rahul", jerNo: 1, runs: 36052, avg: 48.23);
+
+  await insertPlayerData(batsman3);
 }
