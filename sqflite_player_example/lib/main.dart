@@ -16,9 +16,23 @@ class Player {
     required this.runs,
     required this.avg,
   });
+
+  Map<String, dynamic> playerMap() {
+    return {
+      'name': name,
+      'jerNo': jerNo,
+      'runs': runs,
+      'avg': avg,
+    };
+  }
+
+  @override
+  String toString() {
+    return '{name:$name, jerNo:$jerNo,runs:$runs, avg:$avg}';
+  }
 }
 
-insertPlayerData(Player obj) async {
+Future insertPlayerData(Player obj) async {
   // assign the database to the local variable localDB
 
   final localDB = await database;
@@ -31,8 +45,28 @@ insertPlayerData(Player obj) async {
 
   await localDB.insert(
     "Player",
+    obj.playerMap(),
     conflictAlgorithm: ConflictAlgorithm.replace,
   );
+}
+
+Future<List<Player>> getPlayerData() async {
+  final localDB = await database;
+
+  // The Query method from the database class returns a list of map which contains all the data present in the table Player.
+
+  List<Map<String, dynamic>> listPlayers = await localDB.query("Player");
+
+  // here we will convert the list of Map returned from the query method into the list of objects of Players.
+
+  return List.generate(listPlayers.length, (i) {
+    return Player(
+      name: listPlayers[i]['name'],
+      jerNo: listPlayers[i]['jerNo'],
+      runs: listPlayers[i]['runs'],
+      avg: listPlayers[i]['avg'],
+    );
+  });
 }
 
 void main() async {
@@ -94,4 +128,6 @@ void main() async {
   Player batsman3 = Player(name: "KL Rahul", jerNo: 1, runs: 36052, avg: 48.23);
 
   await insertPlayerData(batsman3);
+
+  print(await getPlayerData());
 }
