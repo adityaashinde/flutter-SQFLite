@@ -34,6 +34,8 @@ class Zomato {
 }
 
 dynamic database;
+
+Future<void> insertOrderData(Zomato obj) async {}
 void main() async {
   // We have commented the runApp method so we will have to call the
   // ensureInitialized() method from the WidgetsFlutterBinding class
@@ -71,4 +73,24 @@ void main() async {
         ''');
     },
   );
+
+  // Insert Data
+
+  Zomato order1 = Zomato(
+      orderNo: 1,
+      custName: "Amol",
+      hotelName: "Shree Vej",
+      food: "Buttor Panner & Shev Bhaji",
+      bill: 540.80);
+
+  insertOrderData(order1);
+
+  Zomato order2 = Zomato(
+      orderNo: 2,
+      custName: "SAI",
+      hotelName: "Garva Hotel",
+      food: "Chiken Grevy and Spl Biryani",
+      bill: 740.90);
+
+  insertOrderData(order2);
 }
