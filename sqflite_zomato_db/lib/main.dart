@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import 'package:sqflite/sqlite_api.dart';
 
 class Zomato {
   final int orderNo;
@@ -50,6 +49,28 @@ Future<void> insertOrderData(Zomato obj) async {
     obj.zomatoMap(),
     conflictAlgorithm: ConflictAlgorithm.replace,
   );
+}
+
+Future<List<Zomato>> getOrderData() async {
+  final localDB = await database;
+
+  // The Query method from the database class returns a list of Map
+  // which conatins all the Data Present in the table OrderFood.
+
+  List<Map<String, dynamic>> orderMap = await localDB.query("OrderFood");
+
+  // Here we will convert the list of map returned from the query method into
+  // the list of objects of Zomato
+
+  return List.generate(orderMap.length, (i) {
+    return Zomato(
+      orderNo: orderMap[i]['orderNo'],
+      custName: orderMap[i]['custName'],
+      hotelName: orderMap[i]['hotelName'],
+      food: orderMap[i]['food'],
+      bill: orderMap[i]['bill'],
+    );
+  });
 }
 
 // Update data
@@ -130,6 +151,8 @@ void main() async {
 
   insertOrderData(order2);
 
+  print(await getOrderData());
+
   // Update Data
 
   order1 = Zomato(
@@ -140,5 +163,5 @@ void main() async {
       bill: order1.bill + 150.00);
 
   updateOrderData(order1);
-  // print(await getOrderData());
+  print(await getOrderData());
 }
