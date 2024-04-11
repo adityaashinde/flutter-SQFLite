@@ -73,6 +73,25 @@ Future<List<Zomato>> getOrderData() async {
   });
 }
 
+// Delete
+Future<void> deleteOrderData(int data) async {
+  final localDB = await database;
+
+  /// The delete Method from the database class is used to delete the particular entry from the database
+  /// The delete method takes 3 paramaters i.e
+  /// 1. Table Name 2. Where  3. WhereArgs
+  /// The Where parameter contains the expression on which the delete operation will be performed
+  /// i.e Inour case we have specified OrderNo=? i.e delete the entry where orderNo is equal to ?
+  /// The ? will be replaced with the argument specified in the  whereArgs Parameter i.e data
+  /// so the expression finally becomes => delete the entry where (orderNo = data)
+
+  await localDB.delete(
+    "OrderFood",
+    where: "OrderNo = ?",
+    whereArgs: [data],
+  );
+}
+
 // Update data
 
 Future<void> updateOrderData(Zomato obj) async {
@@ -151,7 +170,18 @@ void main() async {
 
   insertOrderData(order2);
 
+  Zomato order3 = Zomato(
+      orderNo: 3,
+      custName: "Omkar",
+      hotelName: "SP Biryani",
+      food: "Biryani Rassa",
+      bill: 740.90);
+
+  insertOrderData(order3);
+
   print(await getOrderData());
+
+  deleteOrderData(3);
 
   // Update Data
 
@@ -163,5 +193,6 @@ void main() async {
       bill: order1.bill + 150.00);
 
   updateOrderData(order1);
+
   print(await getOrderData());
 }
