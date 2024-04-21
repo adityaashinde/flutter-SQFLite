@@ -14,8 +14,9 @@ a basic flutter examples using SQFLite
 
 - To perform operations database we need first to open the database i.e. establish a connection with the database.
 
-- 1. openDatabase():
-- The openDatabase method from the SQQLite package is called to open the database. An SQLite database is a file in the syatem identified by a path. If relatives, this path is relative to the path obtained by getDatabasesPath(), which is the default database directly on Android and the documents directory on iOS/MacOS.
+### 1). openDatabase():
+
+- The openDatabase method from the SQFLite package is called to open the database. An SQLite database is a file in the syatem identified by a path. If relatives, this path is relative to the path obtained by getDatabasesPath(), which is the default database directly on Android and the documents directory on iOS/MacOS.
 
         ```
         Future<sql.Database> opendb() async {
@@ -50,20 +51,20 @@ a basic flutter examples using SQFLite
   - 3. onDowngrade method is called if the version is lower than the previous version
   - 4. onOpen method is called after the database version has been set and before openDatabase returns. singleInstance is a boolean flag that is true by default and returns a single instance of the database.
 
-- 2. Create a table in the Database
+### 2). Create a table in the Database
 
-  - To store the data in the database we must create tables.
-  - To create a table in the database we can call the execute method and specify the query to crate the table.
+- To store the data in the database we must create tables.
+- To create a table in the database we can call the execute method and specify the query to crate the table.
 
-    ```
-    Future<void> createtable(sql.Database db) async {
-        await db.database.execute(
+  ```
+  Future<void> createtable(sql.Database db) async {
+      await db.database.execute(
 
-            """  CREATE TABLE IF NOT EXISTS todoTasks1( id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-                title TEXT,
-                description TEXT,
-                date TEXT,
-                done INT ) """,
-        );
-    }
-    ```
+          """  CREATE TABLE IF NOT EXISTS todoTasks1( id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+              title TEXT,
+              description TEXT,
+              date TEXT,
+              done INT ) """,
+      );
+  }
+  ```
